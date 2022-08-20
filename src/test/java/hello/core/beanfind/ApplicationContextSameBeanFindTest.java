@@ -1,7 +1,6 @@
 package hello.core.beanfind;
 
 import hello.core.AppConfig;
-import hello.core.discount.DiscountPolicy;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -24,8 +23,8 @@ public class ApplicationContextSameBeanFindTest {
     @DisplayName("타입으로 조회 시 같은 타입이 둘 이상있을경우 중복오류")
     void findBeanByNames (){
         ac.getBean(SameBeanConfig.class); //타입만 조회하는데 현재 같은 타입이 두개
-        // 나 뭘로 조회해야함? 예외터짐NoUniqueBeanException
-        assertThrows(NoUniqueBeanDefinitionException.class,
+        // 여러개잖아 나 뭘로 조회해야함? 예외 NoUniqueBeanException
+        assertThrows(NoUniqueBeanDefinitionException.class, // 예외 처리
                 () -> ac.getBean(MemberRepository.class));
         //해결방법 bean 타입만 조회 하지말고 이름 조건도 같이 조회
     }
@@ -34,7 +33,7 @@ public class ApplicationContextSameBeanFindTest {
     @DisplayName("특정 타입을 모두 조회")
     void findAllBeanByType (){
         Map<String, MemberRepository> beansOfType = ac.getBeansOfType(MemberRepository.class);
-        //향상된 for문으로 값 뽑기
+        //향상된 for문으로 값
         for(String key : beansOfType.keySet()){
             System.out.println("key = " + key + "value = " + beansOfType.values());
         }
@@ -43,9 +42,16 @@ public class ApplicationContextSameBeanFindTest {
         Iterator<String> key = beansOfType.keySet().iterator();
 
         while (key.hasNext()){
-         String keys = key.next();
+            String keys = key.next();
             System.out.println("히히히 = " + keys + "히히히2 = " +  beansOfType.get(keys));
         }
+
+        /*
+        * 부모 타입으로 조회 시 자식 타입으로 함께 조회
+        * Object 타입으로 조회시 모든 스프링 빈 조회
+        * 자식타입의 스프링 빈이 둘 이상 있으면 중복 오류 발생
+        *
+        * */
     }
 
 
