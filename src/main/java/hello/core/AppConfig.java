@@ -24,6 +24,7 @@ public class AppConfig {
 
     //소스코드 리펙토링 -> memberRepository 중복 제거
     // 구현 객체를 나뉨
+
     @Bean
     public MemberService memberService(){
         return new MemberServiceImpl(memberRepository()); //생성자 주입
