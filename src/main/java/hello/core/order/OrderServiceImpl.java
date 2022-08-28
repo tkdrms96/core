@@ -3,11 +3,22 @@ package hello.core.order;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class OrderServiceImpl implements OrderService{
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
+    /*
+    * 수정자 주입 - 필드에 final을 제외시키고 p v setXXX
+    * 생성자와 수정자 차이점 생성자는 컴파일 시점에 바로 Bean을 찾아 스프링컨테이너에 등록 됌
+    * 필드주입 @Autowired 어노테이션을 줘서 스프링컨테이너에 등록
+    * 필드주입이 가장 쉬운 방법이나, 문제점이 있다.
+    * 단일 책임의 원칙 위반할 수 있고 의존성을 책임지지 않을 수 있다
+    *
+    * 상황에 따라 맞는 의존관계를 주입시켜야함 수정자 주입의 경우 required = false를 줘도댐
+    * */
+    @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
