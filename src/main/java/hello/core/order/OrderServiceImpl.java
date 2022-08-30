@@ -18,6 +18,20 @@ public class OrderServiceImpl implements OrderService{
     *
     * 상황에 따라 맞는 의존관계를 주입시켜야함 수정자 주입의 경우 required = false를 줘도댐
     * */
+
+
+/*
+    옵션처리
+
+    스프링 빈에 주입 대상이 없다면 오류가 터진다. 하지만 옵션으로 주입 대상이 없는 경우도 처리할 수있는 3가지 방법이 있다.
+
+    @Autowired(required=false)
+    주입 대상이 없으면 메서드 자체가 호출이 안된다. 에러X
+    파라미터 앞에 @Nullable을 붙이면 주입 대상이 없을 때 호출을 하나 null이 주입된다.
+            ex) void setNoBean(@Nullable Member member)
+    Optional<>을 사용하면 주입 대상이 없을 때 Optional.empty가 주입된다.
+    ex) void setNoBean(Optional< Member > member)
+    */
     @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
