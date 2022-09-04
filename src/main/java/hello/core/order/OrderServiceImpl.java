@@ -3,14 +3,17 @@ package hello.core.order;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@RequiredArgsConstructor //롬복을 통한 생성자 자동주입 처리 final 붙은것들을 파라미터로 받는 Constructor 자동으로 만들어주는 애너테이션
 public class OrderServiceImpl implements OrderService{
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
+
     /*
-    * 수정자 주입 - 필드에 final을 제외시키고 p v setXXX
+    * 수정자 주입 - 필드에 final을 제외시키고 public void setXXX
     * 생성자와 수정자 차이점 생성자는 컴파일 시점에 바로 Bean을 찾아 스프링컨테이너에 등록 됌
     * 필드주입 @Autowired 어노테이션을 줘서 스프링컨테이너에 등록
     * 필드주입이 가장 쉬운 방법이나, 문제점이 있다.
@@ -32,11 +35,13 @@ public class OrderServiceImpl implements OrderService{
     Optional<>을 사용하면 주입 대상이 없을 때 Optional.empty가 주입된다.
     ex) void setNoBean(Optional< Member > member)
     */
-    @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+   /* @Autowired
+    public OrderServiceImpl(MemberRepository memberRepository, @Quilifier("QuilfierName") DiscountPolicy discountPolicy) {
+   //@Quilifier("QuilfierName") 주입될 때, DiscountPolicy에서 Quilifier 붙은 애만 찾아옴
+   //Primary 애너테이션 여러개의 구현체 중 @Primary 애너테이션이 있으면 여러개 빈 중 우선순위를 지정 애너테이션 다른거 다무시하고 최상위 우선순위를 스프링컨테이너에 올림
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
-    }
+    }*/
 
     //    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
     //    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
@@ -47,8 +52,7 @@ public class OrderServiceImpl implements OrderService{
         private final DiscountPolicy(할인정책을) new객체로 생성하지말고
          추상화인 interface에만 의존하게 코드를 변경
 
-    test -> nullpointexception 발생 -> 해결방안 ? discountpolicy의 구현객체를 생성 하고 주입
-        */
+    test -> nullpointexception 발생 -> 해결방안 ? discountpolicy의 구현객체를 생성 하고 주입*/
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
         Member member = memberRepository.findById(memberId);
