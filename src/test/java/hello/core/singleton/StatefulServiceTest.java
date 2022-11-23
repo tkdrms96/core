@@ -1,3 +1,4 @@
+/*
 package hello.core.singleton;
 
 import org.assertj.core.api.Assertions;
@@ -38,4 +39,4 @@ class StatefulServiceTest {
         }
     }
 
-}
+}*/

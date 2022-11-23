@@ -1,10 +1,12 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 @RequiredArgsConstructor //롬복을 통한 생성자 자동주입 처리 final 붙은것들을 파라미터로 받는 Constructor 자동으로 만들어주는 애너테이션
 public class OrderServiceImpl implements OrderService{
@@ -35,13 +37,13 @@ public class OrderServiceImpl implements OrderService{
     Optional<>을 사용하면 주입 대상이 없을 때 Optional.empty가 주입된다.
     ex) void setNoBean(Optional< Member > member)
     */
-   /* @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, @Quilifier("QuilfierName") DiscountPolicy discountPolicy) {
+    @Autowired
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
    //@Quilifier("QuilfierName") 주입될 때, DiscountPolicy에서 Quilifier 붙은 애만 찾아옴
    //Primary 애너테이션 여러개의 구현체 중 @Primary 애너테이션이 있으면 여러개 빈 중 우선순위를 지정 애너테이션 다른거 다무시하고 최상위 우선순위를 스프링컨테이너에 올림
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
-    }*/
+    }
 
     //    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
     //    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
